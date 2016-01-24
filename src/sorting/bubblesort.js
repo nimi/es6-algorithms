@@ -29,15 +29,12 @@ export function bubbleSort(array, cmp = (a, b) => a - b) {
 		array[index - 1] = temp;
 	};
 
-	//	array.forEach((_, outerIndex) => {
 	for (let outerIndex of range(0, array.length)) {
-//		for (let innerIndex = outerIndex; innerIndex > 0; innerIndex -= 1) {
-		for (let innerIndex of range(outerIndex, 0, -1))
-		if (cmp(array[innerIndex], array[innerIndex - 1]) < 0) {
+		for (let innerIndex = outerIndex; innerIndex > 0; innerIndex -= 1) {
+			if (cmp(array[innerIndex], array[innerIndex - 1]) < 0) {
 				swap(innerIndex);
 			}
 		}
 	}
-//	});
 	return array;
 }
