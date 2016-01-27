@@ -4,9 +4,7 @@
  * @public
  */
 
-function compare(a, b) {
-    return a - b;
-}
+const isEmpty = (arr) => ! arr.length;
 
 function partition(arr, fn) {
 	let xs = [], ys = [], len = arr.length, i, e;
@@ -19,9 +17,7 @@ function partition(arr, fn) {
 	return [xs, ys];
 }
 
-const isEmpty = (arr) => ! arr.length;
-
-function qsort(arr, cmp) {
+function qsort(arr, cmp = (a, b) => a - b) {
 	if (isEmpty(arr)) return [];
 	const [head, ...tail] = arr;
 	const concat = (low, high) =>

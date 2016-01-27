@@ -1,7 +1,12 @@
 import 'babel-polyfill';
 
 function* range(begin, end, interval = 1) {
-	for (let i = begin; i < end; i += interval) { yield i; }
+	if (begin < end) {
+		for (let i = begin; i < end; i += interval) { yield i; }
+	}
+	else {
+		for (let i = begin; i > end; i += interval) { yield i; }
+	}
 }
 
 /**
@@ -30,7 +35,7 @@ export function bubbleSort(array, cmp = (a, b) => a - b) {
 	};
 
 	for (let outerIndex of range(0, array.length)) {
-		for (let innerIndex = outerIndex; innerIndex > 0; innerIndex -= 1) {
+		for (let innerIndex of range(outerIndex, 0, -1)) {
 			if (cmp(array[innerIndex], array[innerIndex - 1]) < 0) {
 				swap(innerIndex);
 			}

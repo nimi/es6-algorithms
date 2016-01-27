@@ -1,6 +1,7 @@
 (function (exports) {
   'use strict';
 
+	var stuff;
   var cartesianProduct = (function () {
     var result;
 
