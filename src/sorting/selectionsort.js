@@ -35,4 +35,4 @@ export function selectionSort(array, cmp = (a, b) => a - b) {
 		array[idx] = temp;
     });
     return array;
-};
+}

@@ -34,8 +34,7 @@ function qsort(arr, cmp = (a, b) => a - b) {
  * @param {array} array The input array which should be sorted
  * @returns {array} array Sorted array
  */
-export function quickSort(array, cmp) {
-    cmp = cmp || compare;
+export function quickSort (array, cmp = (a, b) => a - b) {
     return qsort(array, cmp);
 };
 

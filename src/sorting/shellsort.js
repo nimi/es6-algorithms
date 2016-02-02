@@ -32,5 +32,5 @@ export function shellSort(array, cmp = (a, b) => a - b) {
         }
     }
     return array;
-};
+}
 
