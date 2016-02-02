@@ -26,7 +26,7 @@ export function recursiveInsertionSort(
     if (max <= 0) { return array; }
 
     recursiveInsertionSort(array, cmp, max - 1);
-    for (let i = max - 1, current = array[max];
+    for (var i = max - 1, current = array[max];
         i >= 0 && cmp(current, array[i]) < 0; i -= 1) {
 			array[i + 1] = array[i];
     }
