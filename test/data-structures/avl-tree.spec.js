@@ -1,6 +1,6 @@
 'use strict';
 
-var mod = require('../../src/data-structures/avl-tree.js');
+var mod = require('../../lib/data-structures/avl-tree.js');
 var Node = mod.Node;
 var AVLTree = mod.AVLTree;
 
