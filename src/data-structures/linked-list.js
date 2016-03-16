@@ -33,246 +33,243 @@
  *
  * @module data-structures/linked-list
  */
-(function (exports) {
 
-  'use strict';
+/**
+ * Linked list node.
+ *
+ * @public
+ * @constructor
+ * @param {Object} data Data of the node.
+ */
+class Node {
+	constructor(data) {
+		/**
+		 * Data of the node.
+		 * @member {Object}
+		 */
+		this.data = data;
+		/**
+		 * Next node.
+		 * @member {Node}
+		 */
+		this.next = null;
+		/**
+		 * Previous node.
+		 * @member {Node}
+		 */
+		this.prev = null;
+	}
+}
 
-  /**
-   * Linked list node.
-   *
-   * @public
-   * @constructor
-   * @param {Object} data Data of the node.
-   */
-  exports.Node = function (data) {
-    /**
-     * Data of the node.
-     * @member {Object}
-     */
-    this.data = data;
-    /**
-     * Next node.
-     * @member {Node}
-     */
-    this.next = null;
-    /**
-     * Previous node.
-     * @member {Node}
-     */
-    this.prev = null;
-  };
+/**
+ * Linked list.
+ *
+ * @nnpublic
+ * @constructor
+ */
+class LinkedList {
+	constructor() {
+		this.head = null;
+		this.tail = null;
+	}
 
-  /**
-   * Linked list.
-   *
-   * @public
-   * @constructor
-   */
-  exports.LinkedList = function () {
-    this.first = null;
-    this.last = null;
-  };
+	/**
+	 * Add data to the end of linked list.
+	 *
+	 * @public
+	 * @method
+	 * @param {Object} data Data which should be added.
+	 */
+	push(data) {
+		const node = new Node(data);
+		if (!this.head) {
+			this.head = this.tail = node;
+		} else {
+			node.prev = this.tail;
+			this.tail.next = node;
+			this.tail = node;
+		}
+	}
 
-  /**
-   * Add data to the end of linked list.
-   *
-   * @public
-   * @method
-   * @param {Object} data Data which should be added.
-   */
-  exports.LinkedList.prototype.push = function (data) {
-    var node = new exports.Node(data);
-    if (this.first === null) {
-      this.first = this.last = node;
-    } else {
-      var temp = this.last;
-      this.last = node;
-      node.prev = temp;
-      temp.next = node;
-    }
-  };
+	/**
+	 * Add data to the beginning of linked list.
+	 *
+	 * @public
+	 * @method
+	 * @param {Object} data Data which should be added.
+	 */
+	unshift(data) {
+		var node = new exports.Node(data);
+		if (this.head === null) {
+			this.head = this.tail = node;
+		} else {
+			node.next = this.head;
+			this.head.prev = node;
+			this.head = node;
+		}
+	};
 
-  /**
-   * Add data to the beginning of linked list.
-   *
-   * @public
-   * @method
-   * @param {Object} data Data which should be added.
-   */
-  exports.LinkedList.prototype.unshift = function (data) {
-    var node = new exports.Node(data);
-    if (this.first === null) {
-      this.first = this.last = node;
-    } else {
-      var temp = this.first;
-      this.first = node;
-      node.next = temp;
-      temp.prev = node;
-    }
-  };
+	/**
+	 * In order traversal of the linked list.
+	 *
+	 * @public
+	 * @method
+	 * @param {Function} cb Callback which should be executed on each node.
+	 */
+	inorder(cb = () => {}) {
+		let current = this.head;
+		while (current) {
+			cb(current);
+			current = current.next;
+		}
+	};
 
-  /**
-   * In order traversal of the linked list.
-   *
-   * @public
-   * @method
-   * @param {Function} cb Callback which should be executed on each node.
-   */
-  exports.LinkedList.prototype.inorder = function (cb) {
-    var temp = this.first;
-    while (temp) {
-      cb(temp);
-      temp = temp.next;
-    }
-  };
+	/**
+	 * Remove data from the linked list.
+	 *
+	 * @public
+	 * @method
+	 * @param {Object} data Data which should be removed.
+	 * @return {Boolean} Returns true if data has been removed.
+	 */
+	remove(data) {
+		if (this.head === null) {
+			return false;
+		}
+		let current = this.head;
+		while (current) {
+			if (current.data === data) {
+				if (current === this.head) {
+					this.head = this.head.next;
+					this.head.prev = null;
+				} else if (current === this.tail) {
+					this.tail = this.tail.prev;
+					this.tail.next = null;
+				} else {
+					current.prev.next = current.next;
+					current.next.prev = current.prev;
+				}
 
-  /**
-   * Remove data from the linked list.
-   *
-   * @public
-   * @method
-   * @param {Object} data Data which should be removed.
-   * @return {Boolean} Returns true if data has been removed.
-   */
-  exports.LinkedList.prototype.remove = function (data) {
-    if (this.first === null) {
-      return false;
-    }
-    var temp = this.first;
-    var next;
-    var prev;
-    while (temp) {
-      if (temp.data === data) {
-        next = temp.next;
-        prev = temp.prev;
-        if (next) {
-          next.prev = prev;
-        }
-        if (prev) {
-          prev.next = next;
-        }
-        if (temp === this.first) {
-          this.first = next;
-        }
-        if (temp === this.last) {
-          this.last = prev;
-        }
-        return true;
-      }
-      temp = temp.next;
-    }
-    return false;
-  };
+				return true;
+			}
+			current = current.next;
+		}
+		return false;
+	};
 
-  /**
-   * Check if linked list contains cycle.
-   *
-   * @public
-   * @method
-   * @return {Boolean} Returns true if linked list contains cycle.
-   */
-  exports.LinkedList.prototype.hasCycle = function () {
-    var fast = this.first;
-    var slow = this.first;
-    while (true) {
-      if (fast === null) {
-        return false;
-      }
-      fast = fast.next;
-      if (fast === null) {
-        return false;
-      }
-      fast = fast.next;
-      slow = slow.next;
-      if (fast === slow) {
-        return true;
-      }
-    }
-  };
+	/**
+	 * Check if linked list contains cycle.
+	 *
+	 * @public
+	 * @method
+	 * @return {Boolean} Returns true if linked list contains cycle.
+	 */
+	hasCycle() {
+		let fast = this.head;
+		let slow = this.head;
+		while (true) {
+			if (fast === null) {
+				return false;
+			}
+			fast = fast.next;
+			if (fast === null) {
+				return false;
+			}
+			fast = fast.next;
+			slow = slow.next;
+			if (fast === slow) {
+				return true;
+			}
+		}
+	}
 
-  /**
-   * Return last node from the linked list.
-   *
-   * @public
-   * @method
-   * @return {Node} Last node.
-   */
-  exports.LinkedList.prototype.pop = function () {
-    if (this.last === null) {
-      return null;
-    }
-    var temp = this.last;
-    this.last = this.last.prev;
-    return temp;
-  };
+	/**
+	 * Return tail node from the linked list.
+	 *
+	 * @public
+	 * @method
+	 * @return {Node} Tail node.
+	 */
+	pop() {
+		if (this.tail === null) {
+			return null;
+		}
+		let temp = this.tail;
+		this.tail = this.tail.prev;
+		return temp;
+	}
 
-  /**
-   * Return first node from the linked list.
-   *
-   * @public
-   * @method
-   * @return {Node} First node.
-   */
-  exports.LinkedList.prototype.shift = function () {
-    if (this.first === null) {
-      return null;
-    }
-    var temp = this.first;
-    this.first = this.first.next;
-    return temp;
-  };
+	/**
+	 * Return head node from the linked list.
+	 *
+	 * @public
+	 * @method
+	 * @return {Node} Head node.
+	 */
+	shift() {
+		if (this.head === null) {
+			return null;
+		}
+		let temp = this.head;
+		this.head = this.head.next;
+		return temp;
+	};
 
-  /**
-   * Reverses the linked list recursively
-   *
-   * @public
-   * @method
-   */
-  exports.LinkedList.prototype.recursiveReverse = function () {
+	/**
+	 * Reverses the linked list recursively
+	 *
+	 * @public
+	 * @method
+	 */
+	recursiveReverse() {
+		const inverse = (current, next) => {
+			if (!next) {
+				return;
+			}
+			inverse(next, next.next);
+			next.next = current;
+		}
 
-    function inverse(current, next) {
-      if (!next) {
-        return;
-      }
-      inverse(next, next.next);
-      next.next = current;
-    }
+		if (!this.head) {
+			return;
+		}
+		inverse(this.head, this.head.next);
+		this.head.next = null;
+		let temp = this.head;
+		this.head = this.tail;
+		this.tail = temp;
+	}
 
-    if (!this.first) {
-      return;
-    }
-    inverse(this.first, this.first.next);
-    this.first.next = null;
-    var temp = this.first;
-    this.first = this.last;
-    this.last = temp;
-  };
+	/**
+	 * Reverses the linked list iteratively
+	 *
+	 * @public
+	 * @method
+	 */
+	reverse() {
+		if (!this.head || !this.head.next) {
+			return;
+		}
+		let current = this.head.next;
+		let prev = this.head;
+		let temp;
+		while (current) {
+			temp = current.next;
+			current.next = prev;
+			prev.prev = current;
+			prev = current;
+			current = temp;
+		}
+		this.head.next = null;
+		this.tail.prev = null;
+		temp = this.head;
+		this.head = prev;
+		this.tail = temp;
+	}
 
-  /**
-   * Reverses the linked list iteratively
-   *
-   * @public
-   * @method
-   */
-  exports.LinkedList.prototype.reverse = function () {
-    if (!this.first || !this.first.next) {
-      return;
-    }
-    var current = this.first.next;
-    var prev = this.first;
-    var temp;
-    while (current) {
-      temp = current.next;
-      current.next = prev;
-      prev.prev = current;
-      prev = current;
-      current = temp;
-    }
-    this.first.next = null;
-    this.last.prev = null;
-    temp = this.first;
-    this.first = prev;
-    this.last = temp;
-  };
+}
 
-})(typeof window === 'undefined' ? module.exports : window);
+export {
+	Node,
+	LinkedList
+}
