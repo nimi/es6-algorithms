@@ -1,4 +1,4 @@
-var ll = require('../data-structures/linked-list.js');
+var {LinkedList} = require('../data-structures/linked-list.js');
 
 /**
  * Devides and sort merges two subarrays of given array
@@ -21,8 +21,8 @@ var ll = require('../data-structures/linked-list.js');
  * }, 0, 4, 7);
  */
 const merge = function (array, cmp, start, middle, end) {
-    const left = new ll.LinkedList();
-    const right = new ll.LinkedList();
+    const left = new LinkedList();
+    const right = new LinkedList();
 
     const leftSize = middle - start;
     const rightSize = end - middle;
@@ -40,13 +40,13 @@ const merge = function (array, cmp, start, middle, end) {
     }
     i = 0;
     while (i < size) {
-		if (left.first && right.first) {
-			if (cmp(left.first.data, right.first.data) > 0) {
+		if (left.head && right.head) {
+			if (cmp(left.head.data, right.head.data) > 0) {
 				array[start + i] = right.shift().data;
 			} else {
 				array[start + i] = left.shift().data;
 			}
-		} else if (left.first) {
+		} else if (left.head) {
 			array[start + i] = left.shift().data;
 		} else {
 			array[start + i] = right.shift().data;

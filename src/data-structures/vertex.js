@@ -1,16 +1,17 @@
-(function (exports) {
-  'use strict';
+/**
+ * Graph vertex.
+ *
+ * @constructor
+ * @public
+ * @param {Number} id Id of the vertex.
+ * @module data-structures/vertex
+ */
+class Vertex {
+	constructor(id) {
+		this.id = id;
+	}
+}
 
-  /**
-   * Graph vertex.
-   *
-   * @constructor
-   * @public
-   * @param {Number} id Id of the vertex.
-   * @module data-structures/vertex
-   */
-  exports.Vertex = function (id) {
-    this.id = id;
-  };
-
-})(typeof window === 'undefined' ? module.exports : window);
+export {
+	Vertex
+}
