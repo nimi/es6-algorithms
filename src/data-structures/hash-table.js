@@ -70,35 +70,7 @@ class Hashtable {
 	 * @param {Number|String} val Key to be hashed.
 	 */
 	hashCode(val) {
-		let hashCode = 0;
-		let character;
-
-		// If value to be hashed is already an integer, return it.
-		if (val.length === 0 || val.length === undefined) {
-			return val;
-		}
-
-		for (let i = 0; i < val.length; i += 1) {
-			character = val.charCodeAt(i);
-			/*jshint -W016 */
-			hashCode = ((hashCode << 5) - hashCode) + character;
-			hashCode = hashCode & hashCode;
-			/*jshint -W016 */
-		}
-
-		return hashCode;
-	}
-
-	/**
-	 * Puts data into the table based on hashed key value.
-	 *
-	 * @public
-	 * @method
-	 * @param {Number|String} key Key for data.
-	 * @param {Number|String} data Data to be stored in table.
-	 */
-	put(key, data, hashCode) {
-		const newNode = new Node(key, data);
+o		const newNode = new Node(key, data);
 
 		hashCode = this._getHashCode(key, hashCode);
 
